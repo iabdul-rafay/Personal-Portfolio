@@ -368,21 +368,12 @@ async function init(){
   }
 
   /* scroll */
-  let ticking=false,lastScrollY=0;
+  let ticking=false;
   addEventListener("scroll",()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{
     const sc=document.documentElement;
     $("#progress").style.width=Math.min(100,scrollY/(sc.scrollHeight-innerHeight||1)*100)+"%";
     document.querySelector("header").classList.toggle("scrolled",scrollY>30);
     $("#toTop").classList.toggle("show",scrollY>500);
-    /* hide bottom nav on scroll-down, show on scroll-up; always show near top */
-    const bn=$("#bnav");
-    if(bn){
-      const dy=scrollY-lastScrollY;
-      if(scrollY<120)bn.classList.remove("hide");
-      else if(dy>4)bn.classList.add("hide");
-      else if(dy<-4)bn.classList.remove("hide");
-    }
-    lastScrollY=scrollY;
     if(scrollY>innerHeight*0.6)animBars();
     scrollSpy();ticking=false})},{passive:true});
 
